@@ -10,7 +10,7 @@ const CodechefCard = () => {
 
   const getProfileUsernames = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/get-profile/${userId}`);
+      const res = await axios.get(`https://codeyatra.onrender.com/api/get-profile/${userId}`);
       return res.data;
     } catch (err) {
       setError('Failed to fetch profile from backend');

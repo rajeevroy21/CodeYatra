@@ -39,7 +39,7 @@ const Setting = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/auth/update-profile/${userId}`,
+        `https://codeyatra.onrender.com/api/auth/update-profile/${userId}`,
         updatedFields
       );
       setMessage(res.data.message);

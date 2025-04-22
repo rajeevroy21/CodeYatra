@@ -26,7 +26,7 @@ const Addprofile = () => {
     const username = usernames[platform];
   
     try {
-      const res = await axios.post(`http://localhost:5000/api/add-profile`, {
+      const res = await axios.post(`https://codeyatra.onrender.com/api/add-profile`, {
         userId,
         [platform]: username,
       });

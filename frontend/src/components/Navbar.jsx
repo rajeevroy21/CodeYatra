@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/logout', {}, { withCredentials: true });
+      await axios.post('https://codeyatra.onrender.com/api/auth/logout', {}, { withCredentials: true });
       setAuth({ isLoggedIn: false, user: null });
       setVisible(false);
       navigate('/upcoming');

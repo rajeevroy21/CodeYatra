@@ -18,7 +18,7 @@ export default function Login() {
   // Handle signup form submission
   const handleSignup = async () => {
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
+      await axios.post('https://codeyatra.onrender.com/api/auth/signup', { name, email, password });
       alert('User created!');
     } catch (err) {
       console.log(err);
@@ -30,7 +30,7 @@ export default function Login() {
   const handleLogin = async () => {
     setLoading(true); // Start loading when login is initiated
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { email, password }, {
+      const res = await axios.post('https://codeyatra.onrender.com/api/auth/login', { email, password }, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
       });
