@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authAtom';
-import { themeState } from '../recoil/themeAtom'; 
+import { themeState } from '../recoil/themeAtom';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true); 
+  const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // State to control loading spinner
   const setAuth = useSetRecoilState(authState);
   const navigate = useNavigate();
   const theme = useRecoilValue(themeState);
@@ -27,6 +28,7 @@ export default function Login() {
 
   // Handle login form submission
   const handleLogin = async () => {
+    setLoading(true); // Start loading when login is initiated
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', { email, password }, {
         headers: { 'Content-Type': 'application/json' },
@@ -39,6 +41,8 @@ export default function Login() {
       console.log('Login error:', err.response);
       const errorMessage = err.response ? err.response.data.message : 'Login failed: Unknown error';
       alert(errorMessage);
+    } finally {
+      setLoading(false); // Stop loading when the request finishes
     }
   };
 
@@ -75,7 +79,13 @@ export default function Login() {
           onClick={isLogin ? handleLogin : handleSignup}
           className={`w-full ${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-600'} text-white p-3 rounded-lg hover:bg-blue-700 transition cursor-pointer`}
         >
-          {isLogin ? 'Login' : 'Signup'}
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <div className="w-4 h-4 border-2 border-t-2 border-blue-600 rounded-full animate-spin"></div>
+            </div>
+          ) : (
+            isLogin ? 'Login' : 'Signup'
+          )}
         </button>
 
         <p className="mt-4 text-center">
