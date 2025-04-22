@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authAtom';
-import { themeState } from '../recoil/themeAtom';  // Import theme state atom
+import { themeState } from '../recoil/themeAtom';  
 
 const Addprofile = () => {
   const [usernames, setUsernames] = useState({
@@ -11,7 +11,7 @@ const Addprofile = () => {
     codechef: '',
   });
   const userId = useRecoilValue(authState)?.user?._id;
-  const theme = useRecoilValue(themeState); // Get the current theme from Recoil
+  const theme = useRecoilValue(themeState); 
 
   const [message, setMessage] = useState('');
   console.log(userId);

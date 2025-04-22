@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { themeState } from '../recoil/themeAtom'; 
+import Footer from './Footer';
 
 const Home = () => {
   const theme = useRecoilValue(themeState); 
@@ -77,14 +78,7 @@ const Home = () => {
             </section>
 
                {/* Footer */}
-            <footer className={`text-gray-500 text-center py-6 ${theme === 'dark' ? 'bg-gray-950' : 'bg-gray-100'}`}>
-            <p>© {new Date().getFullYear()} CodeYatra . All rights reserved.</p>
-            <div className="mt-2 space-x-4">
-                <a href="https://github.com/rajeevroy21" className="hover:text-white">GitHub</a>
-                <a href="/about" className="hover:text-white">About</a>
-                <a href="/contact" className="hover:text-white">Contact</a>
-            </div>
-            </footer>
+            <Footer/>
 
     </div>
   );

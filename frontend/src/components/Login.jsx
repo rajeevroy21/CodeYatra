@@ -10,9 +10,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/auth/login',
-        { email, password },
+      const res = await axios.post('http://localhost:5000/api/auth/login',{ email, password },
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
@@ -20,16 +18,25 @@ export default function Login() {
       );
       setAuth({ isLoggedIn: true, user: res.data.user });
       alert('Logged in!');
-    } catch (err) {
-      console.log(err);
-      alert('Login failed');
+    }
+     catch (err) {
+      console.log('Login error:', err.response);  
+    if (err.response) {
+      const errorMessage = err.response.data.message || 'Login failed: Unknown error';
+      alert(errorMessage); 
+    } else {
+      alert('Login failed: Unknown error');
+    }
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+
+        {/* Email/password login */}
         <input
           type="email"
           value={email}

@@ -43,8 +43,18 @@ router.get('/me', async(req, res) => {
 // Login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  
+  console.log('Login attempt:', { email, password });  // Debugging log
+
   const user = await User.findOne({ email });
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid email' });
+  }
+
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  
+  if (!passwordMatch) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
@@ -55,8 +65,8 @@ router.post('/login', async (req, res) => {
     secure: false,   
     maxAge: 1 * 24 * 60 * 60 * 1000
   }).json({ message: 'Logged in', user });
-  
 });
+
 // Logout
 router.post('/logout', (req, res) => {
   res.clearCookie('token', {
@@ -69,7 +79,6 @@ router.post('/logout', (req, res) => {
 router.put("/update-profile/:id", async (req, res) => {
   const { name, email, password } = req.body;
   const userId = req.params.id;
-
   try {
     const user = await User.findById(userId); 
     if (!user) {

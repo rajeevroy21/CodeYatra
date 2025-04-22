@@ -26,12 +26,14 @@ const leetcodeRoute = require('./routes/leetcode');
 const codechefRoute = require('./routes/codechef');
 const contestRoute=require("./routes/upcomingcontest");
 const CodingProfile=require("./routes/codingProfiles");
+const googleCalendarRoutes = require('./routes/googleCalendar');
 app.use('/api/codeforces', codeforcesRoute);
 app.use('/api/leetcode', leetcodeRoute);
 app.use('/api/codechef', codechefRoute);
 app.use('/api/contests', contestRoute);
 app.use('/api/auth', authRoutes);
 app.use('/api', CodingProfile);
+app.use('/api/google', googleCalendarRoutes);
 
 
 const PORT = process.env.PORT || 5000;
