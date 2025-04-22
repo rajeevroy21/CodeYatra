@@ -7,7 +7,7 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors({
-  origin: ["http://localhost:5173", "https://code-yatra-9bdu.vercel.app"],
+  origin: "https://code-yatra-9bdu.vercel.app",
   credentials: true,
 }));
 
