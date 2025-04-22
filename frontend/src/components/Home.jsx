@@ -54,7 +54,10 @@ const Home = () => {
           ))}
         </div>
       </section>
-
+      <section>
+      <img src="/images/image.png" alt="description" />
+      </section>
+       
       {/* Demo Preview Section */}
             <section className={`px-6 py-20 ${theme === 'dark' ? 'bg-gradient-to-r from-gray-900 to-gray-800' : 'bg-gradient-to-r from-white-300 to-white-200'} text-center`}>
             <h2 className="text-3xl font-bold mb-6">Preview a Sample Profile</h2>

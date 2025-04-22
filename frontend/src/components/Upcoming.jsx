@@ -31,7 +31,7 @@ const Upcoming = () => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Left: Upcoming Contests Section */}
         <div className="lg:w-1/3 bg-white rounded-xl shadow p-4">
-          <h3 className="text-lg font-semibold mb-1 text-center">Upcoming Contests</h3>
+          <h3 className={`text-lg ${theme === 'dark' ? 'text-black bg-gray' : 'text-black '} font-semibold mb-1 text-center`}>Upcoming Contests</h3>
           {loading ? (
             // Loading spinner while data is being fetched
             <div className="flex justify-center items-center h-40">

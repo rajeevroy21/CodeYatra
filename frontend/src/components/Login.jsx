@@ -1,62 +1,92 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSetRecoilState } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { authState } from '../recoil/authAtom';
+import { themeState } from '../recoil/themeAtom'; 
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useState(true); 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const setAuth = useSetRecoilState(authState);
+  const navigate = useNavigate();
+  const theme = useRecoilValue(themeState);
 
-  const handleLogin = async () => {
+  // Handle signup form submission
+  const handleSignup = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login',{ email, password },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
-      );
-      setAuth({ isLoggedIn: true, user: res.data.user });
-      alert('Logged in!');
-    }
-     catch (err) {
-      console.log('Login error:', err.response);  
-    if (err.response) {
-      const errorMessage = err.response.data.message || 'Login failed: Unknown error';
-      alert(errorMessage); 
-    } else {
-      alert('Login failed: Unknown error');
-    }
+      await axios.post('http://localhost:5000/api/auth/signup', { name, email, password });
+      alert('User created!');
+    } catch (err) {
+      console.log(err);
+      alert('Signup failed');
     }
   };
-  
+
+  // Handle login form submission
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', { email, password }, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      setAuth({ isLoggedIn: true, user: res.data.user });
+      alert('Logged in!');
+      navigate('/home');
+    } catch (err) {
+      console.log('Login error:', err.response);
+      const errorMessage = err.response ? err.response.data.message : 'Login failed: Unknown error';
+      alert(errorMessage);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+    <div className={`flex items-center justify-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-black'}`}>
+      <div className={`p-8 rounded-2xl shadow-lg w-full max-w-sm ${theme === 'dark' ? 'bg-gray-900' : 'bg-white'}`}>
+        <h2 className="text-2xl font-bold text-center mb-6">{isLogin ? 'Login' : 'Signup'}</h2>
 
-        {/* Email/password login */}
+        {!isLogin && (
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            className={`w-full p-3 border ${theme === 'dark' ? 'border-gray-600' : 'border-gray-300'} rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          />
+        )}
+
         <input
           type="email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
-          className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full p-3 border ${theme === 'dark' ? 'border-gray-600' : 'border-gray-300'} rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         <input
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`w-full p-3 border ${theme === 'dark' ? 'border-gray-600' : 'border-gray-300'} rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
+
         <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+          onClick={isLogin ? handleLogin : handleSignup}
+          className={`w-full ${theme === 'dark' ? 'bg-blue-600' : 'bg-blue-600'} text-white p-3 rounded-lg hover:bg-blue-700 transition cursor-pointer`}
         >
-          Login
+          {isLogin ? 'Login' : 'Signup'}
         </button>
+
+        <p className="mt-4 text-center">
+          {isLogin ? 'Don\'t have an account?' : 'Already have an account?'}
+          <span
+            onClick={() => setIsLogin(!isLogin)}
+            className="text-blue-600 cursor-pointer"
+          >
+            {isLogin ? ' Sign up' : ' Login'}
+          </span>
+        </p>
       </div>
     </div>
   );
