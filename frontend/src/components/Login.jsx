@@ -21,14 +21,17 @@ export default function Login() {
       await axios.post('https://codeyatra.onrender.com/api/auth/signup', { name, email, password });
       alert('User created!');
     } catch (err) {
-      console.log(err);
-      alert('Signup failed');
+      if (err.response && err.response.data && err.response.data.message) {
+        alert(err.response.data.message);
+      } else {
+        alert('Signup failed');
+      }
     }
   };
 
   // Handle login form submission
   const handleLogin = async () => {
-    setLoading(true); // Start loading when login is initiated
+    setLoading(true); 
     try {
       const res = await axios.post('https://codeyatra.onrender.com/api/auth/login', { email, password }, {
         headers: { 'Content-Type': 'application/json' },
