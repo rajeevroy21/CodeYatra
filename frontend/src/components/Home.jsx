@@ -22,7 +22,7 @@ const Home = () => {
         <p className="text-xl md:text-2xl text-gray-600 mb-8">
           Monitor your performance, achievements, and streaks across platforms.
         </p>
-        <Link to="/register">
+        <Link to="/login">
           <button className="bg-blue-600 hover:bg-blue-700 transition px-8 py-3 rounded-xl text-lg font-semibold cursor-pointer">
             Get Started
           </button>
